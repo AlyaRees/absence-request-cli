@@ -8,13 +8,9 @@ public class Main {
     static Scanner scanner = new Scanner(System.in); 
 
     static String checkAndUpdateDate(String message, String date) {
-        if (isValidFormat(date)) {
-            return date;
-        } else {
-        do {
+        while (!isValidFormat(date)) {
             askForDateAgain(message);
             date = scanner.next();
-           } while (!isValidFormat(date));
         }
            return date;
     }
