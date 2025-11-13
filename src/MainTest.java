@@ -10,8 +10,8 @@ public class MainTest {
 
     public void testIsValidFormat() {
         
-        assertTrue(Main.isValidFormat("04/11/25"));
-        assertTrue(Main.isValidFormat("27/12/25"));
+        assertTrue(Main.isValidFormat("04/11/2025"));
+        assertTrue(Main.isValidFormat("27/12/2025"));
         assertFalse(Main.isValidFormat("hey"));
 
     }
@@ -27,14 +27,14 @@ public class MainTest {
         try {
             
             // Programmatical simulation of user input
-            String userInput = "04/01/26";
+            String userInput = "04/01/2026";
             ByteArrayInputStream in = new ByteArrayInputStream(userInput.getBytes());
 
             // redirect standard input to use simulated input
             System.setIn(in);
-            String result = Main.checkAndUpdateDate("\nDate from\n", "04/01/26");
+            String result = Main.checkAndUpdateDate("\nDate from\n", "04/01/2026");
 
-            assertEquals("04/01/26", result);
+            assertEquals("04/01/2026", result);
 
         } finally {
             // Restore original standard input
