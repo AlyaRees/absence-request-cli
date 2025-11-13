@@ -5,9 +5,15 @@ import java.util.regex.Pattern;
 
 public class App {
 
-    static Scanner scanner = new Scanner(System.in);
+    static void userPrompt(String message) {
+    System.out.println(message);
+}
 
-    static String checkAndUpdateDate(String message, String date) {
+    static void statusReport(String message) {
+    System.out.println(message);
+}
+
+    static String checkAndUpdateDate(String message, String date, Scanner scanner) {
         while (!isValidFormat(date)) {
             askForDateAgain(message);
             date = scanner.next();
@@ -16,8 +22,8 @@ public class App {
     }
 
     static void askForDateAgain(String message) {
-                log("\nInvalid format. Try again.");
-                log(message);
+                userPrompt("\nInvalid format. Try again.");
+                userPrompt(message);
     }
 
     static boolean isValidFormat(String date) {
@@ -31,74 +37,52 @@ public class App {
            try (FileWriter fileWriter = new FileWriter("HolidayReq.txt")) {
            fileWriter.write(name + "\n" + number + "\n" + startDate + " " + endDate);
            fileWriter.close();
-           log("Successfully wrote to file.");
+           statusReport("Successfully wrote to file.");
         } catch (IOException error) {
             System.out.println("Error writing to file.");
             error.printStackTrace();
         }
     }
 
-    static void log(String message) {
-        System.out.println(message);
-    }
-
-    static void logToUser(String message) {
-        System.out.println(message);
-    }
-
-    static void optionOneInteraction() {
-        logToUser("\nEnter your full name:\n");
+    static void optionOneInteraction(Scanner scanner) {
+        userPrompt("\nEnter your full name:\n");
             String userFullname = scanner.next();
 
-            logToUser("\nEnter your employee number:\n");
+            userPrompt("\nEnter your employee number:\n");
             String employeeNum = scanner.next();
 
-            logToUser("\nEnter holiday you want to book:\n(Use the format DD/MM/YY)\n\nDate from:\n");
+            userPrompt("\nEnter holiday you want to book:\n(Use the format DD/MM/YY)\n\nDate from:\n");
             String startDate = scanner.next();
 
-            startDate = checkAndUpdateDate("\n\nDate from:\n", startDate);
+            startDate = checkAndUpdateDate("\n\nDate from:\n", startDate, scanner);
 
-            logToUser("\nDate to:\n");
+            userPrompt("\nDate to:\n");
             String endDate = scanner.next();
 
-            endDate = checkAndUpdateDate("\nDate to:\n", endDate);
+            endDate = checkAndUpdateDate("\nDate to:\n", endDate, scanner);
 
-            logToUser("\nYou want to book from: " + startDate + " to " + endDate + "\nCorrect? (Y/N)\n");
+            userPrompt("\nYou want to book from: " + startDate + " to " + endDate + "\nCorrect? (Y/N)\n");
             String areDatesCorrect = scanner.next();
 
             while (areDatesCorrect.equalsIgnoreCase("N")) {
-            logToUser("\nEnter holiday you want to book:\n(Use the format DD/M/YY)\n\nDate from:\n");
+            userPrompt("\nEnter holiday you want to book:\n(Use the format DD/M/YY)\n\nDate from:\n");
             startDate = scanner.next();
 
-            logToUser("\nDate to:\n");
+            userPrompt("\nDate to:\n");
             endDate = scanner.next();
-            logToUser("\nYou want to book from: " + startDate + " to " + endDate + "\nCorrect? (Y/N)\n");
+            userPrompt("\nYou want to book from: " + startDate + " to " + endDate + "\nCorrect? (Y/N)\n");
 
             areDatesCorrect = scanner.next();
     }
 
     if (areDatesCorrect.equalsIgnoreCase("Y")) {
             saveDetails(userFullname, employeeNum, startDate, endDate);
-            logToUser("Details saved.");
+            statusReport("Details saved.");
         
         } else {
-            logToUser("Invalid input.");
+            statusReport("Invalid input.");
         }
 }
-    public static void main(String[] args) {
-
-        scanner.useDelimiter("\n"); // Set delimiter to newline to capture full lines including spaces
-
-        logToUser("\nSelect (1) or (2)\n\n 1 - Would you like to book holiday?\n 2 - Would you like to check holiday approval status?\n");
-        
-        int chosenOption = scanner.nextInt();
-
-        if (chosenOption == 1) {
-            optionOneInteraction();
-            } else {
-            logToUser("\nHoliday approval status:\n\nNo holiday has been submitted.\n");
-        }
-    }
 }
 
 // first issue -> scanner doesn't work the way I thought it did... 

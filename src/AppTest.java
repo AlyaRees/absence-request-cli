@@ -3,8 +3,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import java.io.*;
 import org.junit.Test;
+import java.util.Scanner;
 
-public class MainTest {
+public class AppTest {
 
     @Test
 
@@ -32,7 +33,7 @@ public class MainTest {
 
             // redirect standard input to use simulated input
             System.setIn(in);
-            String result = App.checkAndUpdateDate("\nDate from\n", "04/01/2026");
+            String result = App.checkAndUpdateDate("\nDate from\n", "04/01/2026", new Scanner(System.in));
 
             assertEquals("04/01/2026", result);
 
