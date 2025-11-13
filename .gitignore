@@ -1,3 +1,4 @@
 ./HolidayReq.txt
-*.class
 bin/
+/src/*.class
+.DS_Store
