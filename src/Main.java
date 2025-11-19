@@ -19,3 +19,17 @@ public class Main {
         }
     }
 }
+
+// Things to add ->
+
+// With duplication - add a base class to reduce duplication
+
+// in the main method - instansiate and 'go'
+
+// you can use some switches (where appropriate) to replace if-else
+
+// you need to create base classes, use inheritence
+
+// close scanner
+
+// further down the line maybe mock the scanner ?
