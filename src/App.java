@@ -13,7 +13,7 @@ public class App {
         System.out.println(message);
     }
 
-    void optionOneInteraction() {
+    private void optionOneInteraction() {
 
         userInteractions.userPrompt("\nEnter your full name:\n");
         String userFullName = userInteractions.getUserInputString();
@@ -55,20 +55,37 @@ public class App {
         }
     }
 
+    private void optionThreeInteraction() {
+
+        userInteractions.userPrompt("\nEnter admin password: \n");
+        String enteredPassword = userInteractions.getUserInputString();
+
+        String password = "password";
+
+        if (!enteredPassword.equals(password)) {
+            statusReport("\nIncorrect password entered.\n");
+        }
+    }
+
     void run() {
 
-        userInteractions.userPrompt("\nSelect (1) or (2)\n\n 1 - Book holiday\n 2 - Check holiday approval status\n");
+        userInteractions.userPrompt("\nSelect (1) or (2)\n\n 1 - Book holiday\n " +
+                "2 - Check holiday approval status\n " +
+                "3 - Approve holiday (admin only)\n");
 
         // replace with switch statement to tighten the constraints for user input here (should be 1 or 2 only)
 
         switch (userInteractions.getUserInputInt()) {
             case 1:
-            optionOneInteraction();
-            break;
+                optionOneInteraction();
+                break;
             case 2:
-            statusReport("\nHoliday approval status:\n");
-            reader.getRequestedHoliday();
-            break;
+                statusReport("\nHoliday approval status:\n");
+                reader.getRequestedHoliday();
+                break;
+            case 3:
+                optionThreeInteraction();
+                break;
             default:
                 statusReport("\nPlease select a valid option.");
                 break;
