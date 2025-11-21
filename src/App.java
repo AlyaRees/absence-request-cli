@@ -1,10 +1,8 @@
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class App {
 
     UserInteractions userInteractions = new UserInteractions();
-    FileHandling fileHandling = new FileHandling();
+    ReadFromFile reader = new ReadFromFile();
+    WriteToFile writer = new WriteToFile();
     DateHandling dateHandling = new DateHandling();
 
     static void statusReport(String message) {
@@ -18,7 +16,7 @@ public class App {
     void optionOneInteraction() {
 
         userInteractions.userPrompt("\nEnter your full name:\n");
-        String userFullname = userInteractions.getUserInputString();
+        String userFullName = userInteractions.getUserInputString();
 
 
         userInteractions.userPrompt("\nEnter your employee number:\n");
@@ -31,7 +29,6 @@ public class App {
 
         userInteractions.userPrompt("\nDate to:\n");
         String endDate = userInteractions.getUserInputString();
-        ;
 
         endDate = dateHandling.checkAndUpdateDate("\nDate to:\n", endDate);
 
@@ -50,7 +47,7 @@ public class App {
         }
 
         if (areDatesCorrect.equalsIgnoreCase("Y")) {
-            fileHandling.saveDetails(userFullname, employeeNum, startDate, endDate);
+            writer.saveDetails(userFullName, employeeNum, startDate, endDate);
             statusReport("Details saved.");
 
         } else {
@@ -64,11 +61,17 @@ public class App {
 
         // replace with switch statement to tighten the constraints for user input here (should be 1 or 2 only)
 
-        if (userInteractions.getUserInputInt() == 1) {
+        switch (userInteractions.getUserInputInt()) {
+            case 1:
             optionOneInteraction();
-        } else {
+            break;
+            case 2:
             statusReport("\nHoliday approval status:\n");
-            fileHandling.getRequestedHoliday();
+            reader.getRequestedHoliday();
+            break;
+            default:
+                statusReport("\nPlease select a valid option.");
+                break;
         }
         userInteractions.closeScanner();
 

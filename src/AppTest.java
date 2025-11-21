@@ -11,8 +11,6 @@ public class AppTest {
 
     public void testIsValidFormat() {
 
-        App app = new App();
-
         DateHandling dateHandle = new DateHandling();
 
         assertTrue(dateHandle.isValidFormat("04/11/2025"));
