@@ -4,6 +4,8 @@ public class App {
     ReadFromFile reader = new ReadFromFile();
     WriteToFile writer = new WriteToFile();
     DateHandling dateHandling = new DateHandling();
+    GetUserInputNumber getUserInputNumber = new GetUserInputNumber(userInteractions.customScanner);
+    GetUserInputString getUserInputString = new GetUserInputString(userInteractions.customScanner);
 
     static void statusReport(String message) {
         System.out.println(message);
@@ -16,34 +18,34 @@ public class App {
     private void optionOneInteraction() {
 
         userInteractions.userPrompt("\nEnter your full name:\n");
-        String userFullName = userInteractions.getUserInputString();
+        String userFullName = getUserInputString.returnUserInput();
 
 
         userInteractions.userPrompt("\nEnter your employee number:\n");
-        String employeeNum = userInteractions.getUserInputString();
+        String employeeNum = getUserInputString.returnUserInput();
 
         userInteractions.userPrompt("\nEnter holiday you want to book:\n(Use the format DD/MM/YY)\n\nDate from:\n");
-        String startDate = userInteractions.getUserInputString();
+        String startDate = getUserInputString.returnUserInput();
 
         startDate = dateHandling.checkAndUpdateDate("\n\nDate from:\n", startDate);
 
         userInteractions.userPrompt("\nDate to:\n");
-        String endDate = userInteractions.getUserInputString();
+        String endDate = getUserInputString.returnUserInput();
 
         endDate = dateHandling.checkAndUpdateDate("\nDate to:\n", endDate);
 
         userInteractions.userPrompt("\nYou want to book from: " + startDate + " to " + endDate + "\nCorrect? (Y/N)\n");
-        String areDatesCorrect = userInteractions.getUserInputString();
+        String areDatesCorrect = getUserInputString.returnUserInput();
 
         while (areDatesCorrect.equalsIgnoreCase("N")) {
             userInteractions.userPrompt("\nEnter holiday you want to book:\n(Use the format DD/M/YYYY)\n\nDate from:\n");
-            startDate = userInteractions.getUserInputString();
+            startDate = getUserInputString.returnUserInput();
 
             userInteractions.userPrompt("\nDate to:\n");
-            endDate = userInteractions.getUserInputString();
+            endDate = getUserInputString.returnUserInput();
             userInteractions.userPrompt("\nYou want to book from: " + startDate + " to " + endDate + "\nCorrect? (Y/N)\n");
 
-            areDatesCorrect = userInteractions.getUserInputString();
+            areDatesCorrect = getUserInputString.returnUserInput();
         }
 
         if (areDatesCorrect.equalsIgnoreCase("Y")) {
@@ -58,7 +60,7 @@ public class App {
     private void optionThreeInteraction() {
 
         userInteractions.userPrompt("\nEnter admin password: \n");
-        String enteredPassword = userInteractions.getUserInputString();
+        String enteredPassword = getUserInputString.returnUserInput();
 
         String password = "password";
 
@@ -75,20 +77,14 @@ public class App {
 
         // replace with switch statement to tighten the constraints for user input here (should be 1 or 2 only)
 
-        switch (userInteractions.getUserInputInt()) {
-            case 1:
-                optionOneInteraction();
-                break;
-            case 2:
+        switch (getUserInputNumber.returnUserInput()) {
+            case "1" -> optionOneInteraction();
+            case "2" -> {
                 statusReport("\nHoliday approval status:\n");
                 reader.getRequestedHoliday();
-                break;
-            case 3:
-                optionThreeInteraction();
-                break;
-            default:
-                statusReport("\nPlease select a valid option.");
-                break;
+            }
+            case "3" -> optionThreeInteraction();
+            default -> statusReport("\nPlease select a valid option.");
         }
         userInteractions.closeScanner();
 

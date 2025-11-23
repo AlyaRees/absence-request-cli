@@ -11,12 +11,37 @@ public class UserInteractions {
     static void userPrompt(String message) {
         System.out.println(message);
     }
+}
 
-    int getUserInputInt() {
-        return customScanner.nextInt();
+ abstract class GetUserInput {
+
+    protected  Scanner customScanner;
+
+    abstract String returnUserInput();
+
+    public GetUserInput(Scanner customScanner) {
+        this.customScanner = customScanner;
+    }    
+}
+
+class GetUserInputNumber extends GetUserInput {
+
+    GetUserInputNumber(Scanner customScanner) {
+        super(customScanner);
     }
 
-    String getUserInputString() {
+    String returnUserInput() {
+        return String.valueOf(customScanner.nextInt());
+    }
+}
+
+class GetUserInputString extends GetUserInput {
+
+    GetUserInputString(Scanner customScanner) {
+        super(customScanner);
+    }
+
+    String returnUserInput() {
         return customScanner.next();
     }
 }

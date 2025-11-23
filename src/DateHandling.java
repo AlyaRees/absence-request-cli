@@ -4,11 +4,12 @@ import java.util.regex.Pattern;
 public class DateHandling {
 
     UserInteractions userInteractions = new UserInteractions();
+    GetUserInputString getUserInputString = new GetUserInputString(userInteractions.customScanner);
 
     String checkAndUpdateDate(String message, String date) {
         while (!isValidFormat(date)) {
             askForDateAgain(message);
-            date = userInteractions.getUserInputString();
+            date = getUserInputString.returnUserInput();
         }
         return date;
     }
