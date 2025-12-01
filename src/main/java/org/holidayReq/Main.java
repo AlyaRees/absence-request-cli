@@ -29,3 +29,4 @@ public class Main {
 // This caused a lot of duplication (a common code smell!).
 // To reduce duplication, I created my own custom scanner which I could use everywhere 'customScanner'
 // This ensured correct behaviour (no scanner input will be skipped over).
+// Solved problem - there is no longer a collision between requests with the same dates. Requests are no longer retrieved by their dates and are instead got by their index (the user can see and select the one they want to edit!)
