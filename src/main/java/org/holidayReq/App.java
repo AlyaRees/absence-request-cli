@@ -10,6 +10,22 @@ public class App {
     DateHandling dateHandling = new DateHandling();
     UpdateFile holidayInteraction = new UpdateFile();
 
+    String validateInput(int index, ArrayList<String> fileContent) {
+        String selectedRequest = "";
+        do {
+            display("\nSelect holiday to review:\n");
+            try {
+                index = userInteractions.returnUserInputInt();
+                selectedRequest = getHolidayRequest(index);
+            } catch (IndexOutOfBoundsException e) {
+                statusReport("Enter numbers within the scope of the selection only.");
+
+            }
+        } while (index > fileContent.size() || index == 0);
+
+        return selectedRequest;
+    }
+
     static String getHolidayRequest(int index) {
         index = index - 1;
         ReadFromFile reader = new ReadFromFile();
@@ -17,7 +33,7 @@ public class App {
         return selectedDate;
     }
 
-    ArrayList<String> addNumPlacements(ArrayList<String> list) {
+    ArrayList<String> addNumberIDs(ArrayList<String> list) {
         int placement = 1;
         int index = 0;
         while (index < list.size()) {
@@ -95,10 +111,15 @@ public class App {
             enteredPassword = userInteractions.returnUserInputStr();
         }
         statusReport("\nLogin successful.\n");
-        display("Select holiday to review:\n");
-        displayElements(addNumPlacements(reader.getFileContent()));
+
+        ArrayList<String> fileContent = reader.getFileContent();
+        // Gets the file content, puts it into an array list and adds number IDs
+        displayElements(addNumberIDs(fileContent));
+
         int requestIndex = userInteractions.returnUserInputInt();
-        String selectedRequest = getHolidayRequest(requestIndex);
+
+        String selectedRequest = validateInput(requestIndex, fileContent);
+
         display("\nYou selected:\n");
         display(selectedRequest);
         display("\n1 - Approve\n2 - Decline");
