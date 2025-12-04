@@ -6,7 +6,7 @@ public class HolidayRequest {
     private String startDate;
     private String endDate;
 
-    HolidayRequest(String fullName, String employeeNum, String startDate, String endDate) {
+    public HolidayRequest(String fullName, String employeeNum, String startDate, String endDate) {
         this.fullName = fullName;
         this.employeeNum = employeeNum;
         this.startDate = startDate;
