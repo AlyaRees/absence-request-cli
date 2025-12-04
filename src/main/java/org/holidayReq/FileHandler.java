@@ -19,14 +19,16 @@ class ReadFromFile extends HandlesFile {
     ArrayList<String> getFileContent() {
         try {
             File fileObject = new File(fileName);
+            // The scanner reads from the file object
             fileReader = new Scanner(fileObject);
             while (fileReader.hasNextLine()) {
                 dates.add(fileReader.nextLine().trim());
             }
-
-        } catch (FileNotFoundException error) {
+            // The catch block is run if the file doesn't exist or is empty
+        } catch (FileNotFoundException e) {
             App.statusReport("No holiday has been submitted.\n");
-            error.printStackTrace();
+            e.printStackTrace();
+            // close the file reader if it's been used.
         } finally {
             if (fileReader != null) {
                 fileReader.close();

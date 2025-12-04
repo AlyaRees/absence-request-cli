@@ -36,14 +36,12 @@ public class App {
         return selectedDate;
     }
 
-    ArrayList<String> addNumberIDs(ArrayList<String> list) {
-        int placement = 1;
+    public ArrayList<String> addNumberIDs(ArrayList<String> list) {
         int index = 0;
-        while (index < list.size()) {
-            list.set(index, placement + " - " + list.get(index));
+        do {
+            list.set(index, (index + 1) + " - " + list.get(index));
             index++;
-            placement++;
-        }
+        } while (index < list.size());
         return list;
     }
 
@@ -59,7 +57,7 @@ public class App {
         list.forEach(item -> display(item));
     }
 
-    // private access modifier used here as this method will only be called within this class (App)
+    // private access modifiers are used for these option interaction methods on  in the App class as they will only be called within this class.
     private void optionOneInteraction() {
 
         UserInteractions.userPrompt("\nEnter your full name:\n");
@@ -112,14 +110,16 @@ public class App {
         ArrayList<String> fileContent = reader.getFileContent();
         displayElements(addNumberIDs(fileContent));
 
+        // User selects a holiday request, and it is then displayed.
         int requestIndex = userInteractions.returnUserInputInt();
-
         String selectedRequest = selectHoliday(requestIndex);
-
         display("\nYou selected:\n");
         display(selectedRequest);
+
+        // The option to approve or decline the request
         display("\n1 - Approve\n2 - Decline");
         int selectedApproveOrDecline = userInteractions.returnUserInputInt();
+        // The selected request is updated and displayed
         holidayInteraction.updateHolidayStatus(requestIndex, selectedApproveOrDecline);
         display("\nThe following request has been updated:\n");
         display(getHolidayRequest(requestIndex));
@@ -131,7 +131,7 @@ public class App {
                 "2 - Check holiday approval status\n " +
                 "3 - Approve holiday (admin only)\n");
 
-        // added a switch statement to tighten the constraints for user input (selection choice should only be 1, 2 or 3)
+        // The switch statement tightens the constraints for user input (the choice should only be 1, 2 or 3)
 
         switch (userInteractions.returnUserInputInt()) {
             case 1 -> optionOneInteraction();
@@ -152,7 +152,7 @@ public class App {
 // keeps printing the selected number when the code has finished executing.
 // turns out I didn't notice a line of code printing out the user input at the end... oops!
 // issue with scanner using all whitespace as delimiter. When a name with whitespace was entered (eg Alya Rees) it would skip to the next line. This was avoided by explicitly declaring that the delimiter is a newline.
-// extra features to add. Input validation (eg regex to check correct date format).
+// extra features to add. Input validation (e.g. regex to check correct date format).
 // issue with getting code tangled up!
 // issue - didn't stop to read and understand code! commit message - Refactored checkAndUpdateDate 1dad081
 // change the date format to dd/mm/yyyy

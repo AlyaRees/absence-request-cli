@@ -3,7 +3,7 @@ package org.holidayReq;
 public class HandleLogin {
     UserInteractions userInteractions = new UserInteractions();
 
-    protected void adminLogin() {
+    void adminLogin() {
         userInteractions.userPrompt("\nEnter admin password: \n");
         String enteredPassword = userInteractions.returnUserInputStr();
         String password = "password";
