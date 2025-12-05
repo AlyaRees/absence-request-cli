@@ -2,15 +2,17 @@ package org.holidayReq;
 
 import java.util.Scanner;
 
+
+
 public class UserInteractions {
 
-    protected Scanner customScanner = new Scanner(System.in).useDelimiter("\n");
+    public Scanner customScanner = new Scanner(System.in).useDelimiter("\n");
 
     void closeScanner() {
         customScanner.close();
     }
 
-    static void userPrompt(String message) {
+    public void userPrompt(String message) {
         System.out.println(message);
     }
 

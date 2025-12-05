@@ -1,6 +1,7 @@
 package org.holidayReq;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class App {
 
@@ -79,21 +80,21 @@ public class App {
 
         startDate = dateHandling.checkAndUpdateDate("\n\nDate from:\n", startDate);
 
-        UserInteractions.userPrompt("\nDate to:\n");
+        userInteractions.userPrompt("\nDate to:\n");
         String endDate = userInteractions.getUserInputStr();
 
         endDate = dateHandling.checkAndUpdateDate("\nDate to:\n", endDate);
 
-        UserInteractions.userPrompt("\nYou want to book from: " + startDate + " to " + endDate + "\nCorrect? (Y/N)\n");
+        userInteractions.userPrompt("\nYou want to book from: " + startDate + " to " + endDate + "\nCorrect? (Y/N)\n");
         String areDatesCorrect = userInteractions.getUserInputStr();
 
         while (areDatesCorrect.equalsIgnoreCase("N")) {
-            UserInteractions.userPrompt("\nEnter holiday you want to book:\n(Use the format DD/M/YYYY)\n\nDate from:\n");
+            userInteractions.userPrompt("\nEnter holiday you want to book:\n(Use the format DD/M/YYYY)\n\nDate from:\n");
             startDate = userInteractions.getUserInputStr();
 
-            UserInteractions.userPrompt("\nDate to:\n");
+            userInteractions.userPrompt("\nDate to:\n");
             endDate = userInteractions.getUserInputStr();
-            UserInteractions.userPrompt("\nYou want to book from: " + startDate + " to " + endDate + "\nCorrect? (Y/N)\n");
+            userInteractions.userPrompt("\nYou want to book from: " + startDate + " to " + endDate + "\nCorrect? (Y/N)\n");
 
             areDatesCorrect = userInteractions.getUserInputStr();
         }

@@ -1,20 +1,17 @@
-import org.holidayReq.ReadFromFile;
 import org.holidayReq.UserInteractions;
 import org.holidayReq.Validate;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.ByteArrayInputStream;
+import java.util.Scanner;
+
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class Mocks {
-
-    @Mock
-    ReadFromFile reader;
 
     @Test
     public void testGetFileContent() {
@@ -31,19 +28,30 @@ public class Mocks {
 
         Validate validate = new Validate();
         UserInteractions mockUserInteractions = mock(UserInteractions.class);
+        UserInteractions userInteractions = new UserInteractions();
+        Validate mockValidate = mock(Validate.class);
 
         // Employee numbers must be six digits long.
 
         String sixDigitEmployeeNum = "112233";
-        String invalidEmployeeNumShort = "12";
-        String invalidEmployeeNumLong = "0234560";
         String invalidEmployeeNum = "-990023";
         String invalidInput = "pretamanger";
 
-        when(mockUserInteractions.getUserInputStr()).thenReturn(sixDigitEmployeeNum);
+        // call with valid input
+        validate.checkAndUpdate(sixDigitEmployeeNum);
 
+        // expect userPrompt to not be called
+        verify(mockUserInteractions, times(0)).getUserInputStr();
         assertEquals(sixDigitEmployeeNum, validate.checkAndUpdate(sixDigitEmployeeNum));
+
+        // call with invalid input
+
+        // getUserInput needs to return valid input this second time around
 
     }
 
+    private static void setInput(String input) {
+        ByteArrayInputStream testIn = new ByteArrayInputStream(input.getBytes());
+        System.setIn(testIn);
+    }
 }
