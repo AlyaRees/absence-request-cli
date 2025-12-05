@@ -10,6 +10,8 @@ import static org.junit.Assert.*;
 public class AppTest {
 
     App app = new App();
+    Validate validate = new Validate();
+
 
     @Test
 
@@ -28,9 +30,9 @@ public class AppTest {
 
     @Test
 
-    public void testIsValidFormat() {
+    public void testIsValidDateFormat() {
 
-        DateHandling dateHandle = new DateHandling();
+        Validate dateHandle = new Validate();
 
         assertTrue(dateHandle.isValidFormat("04/11/2025"));
         assertTrue(dateHandle.isValidFormat("27/12/2025"));
@@ -62,5 +64,22 @@ public class AppTest {
         assertEquals("2 - Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - DECLINED", testList.get(1));
         assertEquals("3 - Name: Jackie Chan Employee Number: 445566 Date: 22/12/2026 22/22/2222 - APPROVED", testList.get(2));
 
+    }
+
+    @Test
+
+    public void testIsValidFormat() {
+
+        String sixDigitEmployeeNum = "112233";
+        String invalidEmployeeNumShort = "12";
+        String invalidEmployeeNumLong = "0234560";
+        String invalidEmployeeNum = "-990023";
+        String invalidInput = "pretamanger";
+
+        assertTrue(validate.validateFormat(sixDigitEmployeeNum));
+        assertFalse(validate.validateFormat(invalidEmployeeNumShort));
+        assertFalse(validate.validateFormat(invalidEmployeeNumLong));
+        assertFalse(validate.validateFormat(invalidEmployeeNum));
+        assertFalse(validate.validateFormat(invalidInput));
     }
 }

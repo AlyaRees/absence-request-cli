@@ -5,12 +5,12 @@ public class HandleLogin {
 
     void adminLogin() {
         userInteractions.userPrompt("\nEnter admin password: \n");
-        String enteredPassword = userInteractions.returnUserInputStr();
+        String enteredPassword = userInteractions.getUserInputStr();
         String password = "password";
 
         while (!enteredPassword.equals(password)) {
             App.statusReport("\nIncorrect password entered.\n");
-            enteredPassword = userInteractions.returnUserInputStr();
+            enteredPassword = userInteractions.getUserInputStr();
         }
         App.statusReport("\nLogin successful.");
     }

@@ -2,7 +2,7 @@ package org.holidayReq;
 
 import java.util.Scanner;
 
-class UserInteractions {
+public class UserInteractions {
 
     protected Scanner customScanner = new Scanner(System.in).useDelimiter("\n");
 
@@ -13,11 +13,12 @@ class UserInteractions {
     static void userPrompt(String message) {
         System.out.println(message);
     }
-    int returnUserInputInt() {
+
+    int getUserInputInt() {
         return customScanner.nextInt();
     }
 
-    String returnUserInputStr() {
+    public String getUserInputStr() {
         return customScanner.next();
     }
 }
