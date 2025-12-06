@@ -12,20 +12,36 @@ public class AppTest {
     App app = new App();
     Validate validate = new Validate();
 
-
     @Test
 
     public void testGetFileContent() {
 
-        // Not implemented yet
-
+        App app = new App();
+        ReadFromFile reader = new ReadFromFile();
+        WriteToFile writer = new WriteToFile();
+        HolidayRequest request = new HolidayRequest("Homer Simpson", "112233", "11/11/1111", "22/22/2222");
         Path pathOfFile = Paths.get("HolidayReq.txt");
 
+        // delete file before
         try {
             Files.deleteIfExists(pathOfFile);
         } catch (IOException e) {
             app.statusReport("" + e);
         }
+
+        writer.save(request);
+
+        ArrayList<String> result = reader.getFileContent();
+
+        assertEquals("Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL", result.get(0));
+
+        // delete file after
+        try {
+            Files.deleteIfExists(pathOfFile);
+        } catch (IOException e) {
+            app.statusReport("" + e);
+        }
+
     }
 
     @Test
