@@ -112,20 +112,21 @@ public class App {
 
         String userFullName = user.getUserName();
         String employeeNum = user.getEmployeeNumber();
-        String date = user.getStartDate();
+        userInteractions.userPrompt("\nEnter the date you're late on:\n(Use the format DD/M/YYYY)\n");
+        String date = userInteractions.getUserInputStr();
+        userInteractions.userPrompt("\nDate: " + date + " correct?\n");
+        String yesOrNo = userInteractions.getUserInputStr();
 
-        String areDatesCorrect = user.checkDates();
-
-        while (areDatesCorrect.equalsIgnoreCase("N")) {
+        while (yesOrNo.equalsIgnoreCase("N")) {
             userInteractions.userPrompt("\nEnter the date you're late on:\n(Use the format DD/M/YYYY)\n");
             date = userInteractions.getUserInputStr();
 
             userInteractions.userPrompt("\nDate: " + date + " Correct? (Y/N)\n");
 
-            areDatesCorrect = userInteractions.getUserInputStr();
+            yesOrNo = userInteractions.getUserInputStr();
         }
 
-        if (areDatesCorrect.equalsIgnoreCase("N")) {
+        if (yesOrNo.equalsIgnoreCase("N")) {
             statusReport("Invalid input.");
         }
 
@@ -134,7 +135,7 @@ public class App {
 
         double hours = user.getHours();
 
-        userInteractions.userPrompt("\n" + hours + "hours, correct?\n");
+        userInteractions.userPrompt("\n" + hours + " hours, correct?\n");
         String isEntryCorrect = userInteractions.getUserInputStr();
 
         while (isEntryCorrect.equalsIgnoreCase("N")) {
