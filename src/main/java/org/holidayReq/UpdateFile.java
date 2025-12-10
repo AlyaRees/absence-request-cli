@@ -14,9 +14,7 @@ public class UpdateFile extends ReadFromFile {
         switch (userInput) {
             case 1 -> adminResponse = "- APPROVED";
             case 2 -> adminResponse = "- DECLINED";
-            default -> {
-                App.display("\nInvalid input. Please try again.\n");
-            }
+            default -> App.display("\nInvalid input. Please try again.\n");
         }
         return adminResponse;
     }

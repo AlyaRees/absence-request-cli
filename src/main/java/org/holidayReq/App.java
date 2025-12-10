@@ -89,8 +89,8 @@ public class App {
         }
 
         if (areDatesCorrect.equalsIgnoreCase("Y")) {
-            HolidayRequest request = new HolidayRequest(userFullName, employeeNum, startDate, endDate);
-            writer.save(request.fileContents());
+            Request holidayRequest = new Holiday(userFullName, employeeNum, startDate, endDate);
+            writer.save(holidayRequest.fileContents());
             updateFile.reformatFile();
             statusReport("Details saved.");
 

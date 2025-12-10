@@ -44,11 +44,11 @@ public class AppTest {
 
     public void setUpForManualTesting() {
         WriteToFile writer = new WriteToFile();
-        HolidayRequest request = new HolidayRequest("Homer Simpson", "112233", "11/11/1111", "22/22/2222");
-        HolidayRequest request2 = new HolidayRequest("Jerry Smith", "556677", "11/11/1111", "22/22/2222");
+        Holiday holidayRequest = new Holiday("Homer Simpson", "112233", "11/11/1111", "22/22/2222");
+        Holiday holidayRequest2 = new Holiday("Jerry Smith", "556677", "11/11/1111", "22/22/2222");
 
-        writer.save(request.fileContents());
-        writer.save(request2.fileContents());
+        writer.save(holidayRequest.fileContents());
+        writer.save(holidayRequest2.fileContents());
 
 
     }
@@ -59,8 +59,8 @@ public class AppTest {
         UpdateFile updateFile = new UpdateFile();
         WriteToFile writer = new WriteToFile();
         ReadFromFile reader = new ReadFromFile();
-        HolidayRequest request = new HolidayRequest("Homer Simpson", "112233", "11/11/1111", "22/22/2222");
-        HolidayRequest request2 = new HolidayRequest("Jerry Smith", "556677", "11/11/1111", "22/22/2222");
+        Holiday holidayRequest = new Holiday("Homer Simpson", "112233", "11/11/1111", "22/22/2222");
+        Holiday holidayRequest2 = new Holiday("Jerry Smith", "556677", "11/11/1111", "22/22/2222");
         int approve = 1;
         int decline = 2;
         int secondEntry = 2;
@@ -71,16 +71,16 @@ public class AppTest {
         assertEquals(0, reader.getFileContent().size());
 
         // one entry is saved to the file.
-        writer.save(request.fileContents());
+        writer.save(holidayRequest.fileContents());
         assertEquals(1, reader.getFileContent().size());
         // a second one.
-        writer.save(request2.fileContents());
+        writer.save(holidayRequest2.fileContents());
         assertEquals(2, reader.getFileContent().size());
 
         ArrayList<String> result = reader.getFileContent();
 
-        assertEquals("Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL", result.get(0));
-        assertEquals("[Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL, Name: Jerry Smith Employee Number: 556677 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL]", result.toString());
+        assertEquals("Request: Holiday - Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL", result.get(0));
+        assertEquals("[Request: Holiday - Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL, Request: Holiday - Name: Jerry Smith Employee Number: 556677 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL]", result.toString());
 
         // gets the correct number to index into the array
         // (ie, for the user 1 corresponds to the first element, but for accessing arrays 0 should be used to get the first element).
@@ -93,8 +93,8 @@ public class AppTest {
         updateFile.holidayStatus(secondEntry, decline);
         assertEquals(2, result.size());
 
-        assertEquals("Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - APPROVED", reader.getFileContent().get(firstEntry));
-        assertEquals("Name: Jerry Smith Employee Number: 556677 Date: 11/11/1111 22/22/2222 - DECLINED", reader.getFileContent().get(secondEntry));
+        assertEquals("Request: Holiday - Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - APPROVED", reader.getFileContent().get(firstEntry));
+        assertEquals("Request: Holiday - Name: Jerry Smith Employee Number: 556677 Date: 11/11/1111 22/22/2222 - DECLINED", reader.getFileContent().get(secondEntry));
 
     }
 
@@ -104,24 +104,24 @@ public class AppTest {
 
         ReadFromFile reader = new ReadFromFile();
         WriteToFile writer = new WriteToFile();
-        HolidayRequest request = new HolidayRequest("Homer Simpson", "112233", "11/11/1111", "22/22/2222");
-        HolidayRequest request2 = new HolidayRequest("Jerry Smith", "556677", "11/11/1111", "22/22/2222");
+        Holiday holidayRequest = new Holiday("Homer Simpson", "112233", "11/11/1111", "22/22/2222");
+        Holiday holidayRequest2 = new Holiday("Jerry Smith", "556677", "11/11/1111", "22/22/2222");
 
         assertEquals(new ArrayList<String>(), reader.getFileContent());
         assertEquals(0, reader.getFileContent().size());
 
         // writes to a new file
-        writer.save(request.fileContents());
+        writer.save(holidayRequest.fileContents());
         assertEquals(1, reader.getFileContent().size());
-        writer.save(request2.fileContents());
+        writer.save(holidayRequest2.fileContents());
         //assertEquals(2, reader.getFileContent().size());
 
         // gets the information from the file and puts it in an ArrayList
 
         // checks the information added earlier is in the file
-        assertEquals("Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL", reader.getFileContent().get(0));
-        assertEquals("[Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL," +
-                " Name: Jerry Smith Employee Number: 556677 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL]", reader.getFileContent().toString());
+        assertEquals("Request: Holiday - Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL", reader.getFileContent().get(0));
+        assertEquals("[Request: Holiday - Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL," +
+                " Request: Holiday - Name: Jerry Smith Employee Number: 556677 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL]", reader.getFileContent().toString());
         assertEquals(2, reader.getFileContent().size());
 
     }

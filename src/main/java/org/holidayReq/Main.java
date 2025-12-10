@@ -17,7 +17,7 @@ public class Main {
 // Add more comments in your code
 
 // you can use some switches (where appropriate) to replace if-else
-
+// abstract classes
 // you need to create base classes, use inheritance
 
 // overthinking - looking at interfaces and class inheritance to try and solve a problem.
