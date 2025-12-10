@@ -1,6 +1,8 @@
 import org.holidayReq.*;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,18 +14,41 @@ import static org.junit.Assert.*;
 
 public class AppTest {
 
-    App app = new App();
-    Path pathOfFile = Paths.get("HolidayReq.txt");
+    static App app = new App();
 
     // deletes the file before each test, should it already exist
-    @Before
-    public void deleteFile() {
-        try {
-            Files.deleteIfExists(pathOfFile);
-            // Catches an input/output exception should one occur. This indicates the failure or interruption of an input/output operation.
-        } catch (IOException e) {
-            app.statusReport("" + e);
-        }
+
+    @Test
+
+    public void testHolidayStatus() {
+        UpdateFile updateFile = new UpdateFile();
+        WriteToFile writer = new WriteToFile();
+        ReadFromFile reader = new ReadFromFile();
+        HolidayRequest request = new HolidayRequest("Homer Simpson", "112233", "11/11/1111", "22/22/2222");
+        HolidayRequest request2 = new HolidayRequest("Jerry Smith", "556677", "11/11/1111", "22/22/2222");
+        int approve = 1;
+        int decline = 2;
+        int secondEntry = 2;
+        int firstEntry = 1;
+
+        assertEquals(new ArrayList<String>(), reader.getFileContent());
+
+        writer.save(request.fileContents());
+        writer.save(request2.fileContents());
+
+        ArrayList<String> result = reader.getFileContent();
+
+        assertEquals("Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL", result.get(0));
+//        assertEquals("[Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL," +
+//                " Name: Jerry Smith Employee Number: 556677 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL]", result.toString());
+
+        //updateFile.holidayStatus(firstEntry, approve);
+        //updateFile.holidayStatus(secondEntry, decline);
+
+        //assertEquals("Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - APPROVED", reader.getHolidayRequest(firstEntry));
+        //assertEquals("Name: Jerry Smith Employee Number: 556677 Date: 11/11/1111 22/22/2222 - DECLINED", ;
+
+
     }
 
     @Test

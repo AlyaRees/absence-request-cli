@@ -16,9 +16,7 @@ public class Mocks {
     public void testReviewSelectionValidInput() {
         Validate validate = new Validate();
         Scanner mockScanner = mock(Scanner.class);
-        int invalidInput = 12;
         int validInputOne = 1;
-        int validInputTwo= 2;
         when(mockScanner.nextInt()).thenReturn(validInputOne);
 
         int result = validate.selection(mockScanner);

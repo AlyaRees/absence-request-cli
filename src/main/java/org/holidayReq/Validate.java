@@ -5,39 +5,27 @@ import java.util.Scanner;
 public class Validate {
 
     UserInteractions userInteractions = new UserInteractions();
-    protected String pattern;
-    protected String errMessage;
 
-    public boolean isValid(String input) {
-        return input.matches(this.pattern);
-    }
-
-    public String askForInputAgain(Scanner scanner) {
+    public String askForInputAgain(Scanner scanner, String pattern, String errMessage) {
         scanner.useDelimiter("\n");
         String input = scanner.next();
-        while (!isValid(input)) {
-            userInteractions.userPrompt(this.errMessage);
+        while (!input.matches(pattern)) {
+            userInteractions.userPrompt(errMessage);
             input = scanner.next();
         }
         return input;
     }
 
     public String employeeNumber(Scanner scanner) {
-        this.pattern = "^[0-9]{6}$";
-        this.errMessage = "\nInvalid entry. Employee numbers have six digits. Try again.\n";
-        return askForInputAgain(scanner);
+        return askForInputAgain(scanner, "^[0-9]{6}$", "\nInvalid entry. Employee numbers have six digits. Try again.\n");
     }
 
     public String date(Scanner scanner) {
-        this.pattern = "^\\d{2}\\/\\d{2}\\/\\d{4}$";
-        this.errMessage = "\nInvalid format. Try again.";
-        return askForInputAgain(scanner);
+        return askForInputAgain(scanner, "^\\d{2}\\/\\d{2}\\/\\d{4}$", "\nInvalid format. Try again.");
     }
 
     public String login(Scanner scanner) {
-        this.pattern = "password";
-        this.errMessage = "\nIncorrect password entered.\n";
-        return askForInputAgain(scanner);
+        return askForInputAgain(scanner, "password", "\nIncorrect password entered.\n");
     }
 
     /*

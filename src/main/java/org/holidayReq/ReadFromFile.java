@@ -31,6 +31,7 @@ public class ReadFromFile {
     }
 
     public String getHolidayRequest(int index) {
-        return getFileContent().get(index - 1);
+        index = index - 1;
+        return getFileContent().get(index);
     }
 }

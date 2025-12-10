@@ -107,8 +107,8 @@ public class App {
         displayElements(addNumberIDs(fileContent));
 
         // User selects a holiday request, and it is then displayed.
-        int requestIndex = userInteractions.getUserInputInt();
-        String selectedRequest = selectHoliday(requestIndex);
+        int selectedHolidayOption = userInteractions.getUserInputInt();
+        String selectedRequest = selectHoliday(selectedHolidayOption);
         display("\nYou selected:\n");
         display(selectedRequest);
 
@@ -116,9 +116,10 @@ public class App {
         display("\n1 - Approve\n2 - Decline");
         int selectedApproveOrDecline = validate.selection(userInteractions.customScanner);
         // The selected request is updated and displayed
-        updateFile.updateHolidayStatus(selectedApproveOrDecline, requestIndex);
+        updateFile.holidayStatus(selectedHolidayOption, selectedApproveOrDecline);
         display("\nThe following request has been updated:\n");
-        display(reader.getHolidayRequest(selectedApproveOrDecline));
+        display("selectedHolidayOption: " + selectedHolidayOption);
+        display(reader.getHolidayRequest(selectedHolidayOption));
     }
 
     public void run() {
