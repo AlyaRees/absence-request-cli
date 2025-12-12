@@ -4,11 +4,13 @@ import java.util.Scanner;
 
 public class UserDetails {
 
-    protected String startDate;
-    protected String endDate;
-    protected String date;
+    private String startDate;
+    private String endDate;
+    private String date;
     private String employeeName;
     private String employeeNumber;
+    private String reason;
+    private double hours;
 
     UserInteractions userInteractions = new UserInteractions(new Scanner(System.in).useDelimiter("\n"));
     CheckAndUpdate checkAndUpdate = new CheckAndUpdate();
@@ -40,17 +42,14 @@ public class UserDetails {
     }
 
     public double getHours() {
-        userInteractions.userPrompt("\nHow many working hours will you be absent?\n(0.5 for 30 minutes, 1 for 1 hour)\n");
-        return checkAndUpdate.hours(userInteractions.customScanner);
+        return hours;
     }
 
     public String getDate() {
-        userInteractions.userPrompt("\nEnter the date you're late on:\n(Use the format DD/M/YYYY)\n");
-        this.date = checkAndUpdate.date(userInteractions.customScanner);
-        return userInteractions.getUserInputStr();
+        return date;
     }
 
-    public String isDateCorrect() {
+    public String getCorrectDate() {
         userInteractions.userPrompt("\nDate: " + date + " correct?\n");
         return userInteractions.getUserInputStr();
     }
@@ -69,6 +68,30 @@ public class UserDetails {
     public void setEndDate() {
         userInteractions.userPrompt("\nDate to:\n");
         this.endDate = checkAndUpdate.date(userInteractions.customScanner);
+    }
+
+    public void setDate() {
+        userInteractions.userPrompt("\nEnter the date you're late on:\n(Use the format DD/M/YYYY)\n");
+        this.date = checkAndUpdate.date(userInteractions.customScanner);
+    }
+
+    public void setReason() {
+        userInteractions.userPrompt("\nEnter your reason for absence: \n");
+        this.reason = userInteractions.getUserInputStr();
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setHours() {
+        userInteractions.userPrompt("\nHow many working hours will you be absent?\n(0.5 for 30 minutes, 1 for 1 hour)\n");
+        this.hours = checkAndUpdate.hours(userInteractions.customScanner);
+    }
+
+    public String getCorrectHours() {
+        userInteractions.userPrompt("\n" + hours + " hours, correct?\n");
+        return userInteractions.getUserInputStr();
     }
 }
 

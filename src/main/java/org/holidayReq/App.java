@@ -19,13 +19,17 @@ public class App {
     }
 
     private String selectHoliday(int index) {
-        String selectedRequest = "";
+        String selectedRequest;
+        display("1st call index" + index);
         try {
             selectedRequest = reader.getFileContent().get(index);
+            display("selectedRequest " + selectedRequest);
+            display("2nd call index" + index);
         } catch (Exception e) {
             statusReport("Please select from the provided options.");
-            index = userInteractions.getUserInputInt();
-            selectHoliday(index);
+            index = getCorrectIndex(userInteractions.getUserInputInt());
+            selectedRequest = selectHoliday(index);
+            display("3rd call index" + index);
         }
         return selectedRequest;
     }
@@ -101,38 +105,27 @@ public class App {
 
         user.setEmployeeName();
         user.setEmployeeNumber();
-        String date = user.getDate();
+        user.setDate();
 
-        String yesOrNo = user.isDateCorrect();
+        String yesOrNo = user.getCorrectDate();
 
         while (yesOrNo.equalsIgnoreCase("N")) {
-            userInteractions.userPrompt("\nEnter the date you're late on:\n(Use the format DD/M/YYYY)\n");
-            date = userInteractions.getUserInputStr();
-
-            userInteractions.userPrompt("\nDate: " + date + " Correct? (Y/N)\n");
-
-            yesOrNo = userInteractions.getUserInputStr();
+            user.setDate();
+            yesOrNo = user.getCorrectDate();
         }
 
-        userInteractions.userPrompt("\nEnter your reason for absence: \n");
-        String reason = userInteractions.getUserInputStr();
+        user.setReason();
+        user.setHours();
 
-        double hours = user.getHours();
-
-        userInteractions.userPrompt("\n" + hours + " hours, correct?\n");
-        String isEntryCorrect = userInteractions.getUserInputStr();
+        String isEntryCorrect = user.getCorrectHours();
 
         while (isEntryCorrect.equalsIgnoreCase("N")) {
-            userInteractions.userPrompt("\nHow many working hours will you be absent?\n(0.5 for 30 minutes, 1 for 1 hour)\n");
-            hours = checkAndUpdate.hours(userInteractions.customScanner);
-
-            userInteractions.userPrompt("\n" + hours + "hours, correct?\n");
-
-            isEntryCorrect = userInteractions.getUserInputStr();
+            user.setHours();
+            isEntryCorrect = user.getCorrectHours();
         }
 
         if (isEntryCorrect.equalsIgnoreCase("Y")) {
-            Absence lateness = new Lateness(user.getEmployeeName(), user.getEmployeeNumber(), date, hours, reason);
+            Absence lateness = new Lateness(user.getEmployeeName(), user.getEmployeeNumber(), user.getDate(), user.getHours(), user.getReason());
             writer.save(lateness.fileContents());
             updateFile.reformatFile();
             statusReport("Details saved.");
@@ -148,9 +141,7 @@ public class App {
         user.setEmployeeNumber();
         user.setStartDate();
         user.setEndDate();
-
-        userInteractions.userPrompt("\nEnter your reason for absence: \n");
-        String reason = userInteractions.getUserInputStr();
+        user.setReason();
 
         String areDatesCorrect = user.areEnteredDatesCorrect();
 
@@ -161,7 +152,7 @@ public class App {
         }
 
         if (areDatesCorrect.equalsIgnoreCase("Y")) {
-            Absence sickLeaveRequest = new SickLeave(user.getEmployeeName(), user.getEmployeeNumber(), user.startDate, user.endDate, reason);
+            Absence sickLeaveRequest = new SickLeave(user.getEmployeeName(), user.getEmployeeNumber(), user.getStartDate(), user.getEndDate(), user.getReason());
             writer.save(sickLeaveRequest.fileContents().trim());
             updateFile.reformatFile();
             statusReport("Details saved.");
@@ -186,7 +177,9 @@ public class App {
         // makes sure the correct number is used for indexing into the array of absence requests
         // ie the first request is numbered '1', which corresponds to the first element in the array, indexed at 0
         int selectedHolidayOption = getCorrectIndex(userInteractions.getUserInputInt());
+        display("selectedHolidayOption" + selectedHolidayOption);
         String selectedRequest = selectHoliday(selectedHolidayOption);
+        display("selectedHolidayOption" + selectedHolidayOption);
         display("\nYou selected:\n");
         display(selectedRequest);
 
