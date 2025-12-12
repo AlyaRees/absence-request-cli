@@ -11,10 +11,12 @@ public class Holiday extends Absence {
         this.endDate = endDate;
     }
 
+    // specifies type of request to be written to the file.
     public String requestType() {
         return "Holiday - ";
     }
 
+    // adds additional information that might not be required of other types of absence requests
     public String getAdditionalInfo() {
         return this.startDate + " " + this.endDate;
     }

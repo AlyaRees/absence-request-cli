@@ -5,27 +5,22 @@ import java.util.Scanner;
 
 public class App {
 
-    // EVERYTHING'S working at this point!
-
-    UserInteractions userInteractions = new UserInteractions(new Scanner(System.in).useDelimiter("\n"));
+    UserInteractions userInteractions = new UserInteractions(new Scanner(System.in));
     ReadFromFile reader = new ReadFromFile();
     WriteToFile writer = new WriteToFile();
     UpdateFile updateFile = new UpdateFile();
     CheckAndUpdate checkAndUpdate = new CheckAndUpdate();
     UserDetails user = new UserDetails();
 
-    private static String getContent(Absence holidayRequest) {
-        return holidayRequest.fileContents();
-    }
-
-    private String selectHoliday(int index) {
+    // tries to fetch a request from the file.
+    private String selectRequest(int index) {
         String selectedRequest;
         try {
             selectedRequest = reader.getFileContent().get(index);
         } catch (Exception e) {
             statusReport("Please select from the provided options.");
             index = getCorrectIndex(userInteractions.getUserInputInt());
-            selectedRequest = selectHoliday(index);
+            selectedRequest = selectRequest(index);
         }
         return selectedRequest;
     }
@@ -65,7 +60,7 @@ public class App {
     private void selectRequestToBook() {
         userInteractions.userPrompt("\nWhat absence would you like to request?\n");
         display("1 - Holiday\n" + "2 - Sickness\n" + "3 - Lateness to work\n");
-        int bookingSelectedOption = Integer.parseInt(checkAndUpdate.selection(userInteractions.customScanner));
+        int bookingSelectedOption = Integer.parseInt(checkAndUpdate.selection(userInteractions.scanner));
         switch (bookingSelectedOption) {
             case 1 -> bookHoliday();
             case 2 -> bookSickness();
@@ -94,7 +89,7 @@ public class App {
         // saves the request to the file.
         if (areDatesCorrect.equalsIgnoreCase("Y")) {
             Absence holidayRequest = new Holiday(user.getEmployeeName(), user.getEmployeeNumber(), user.getStartDate(), user.getEndDate());
-            writer.save(getContent(holidayRequest));
+            writer.save(holidayRequest.details());
             updateFile.reformatFile();
             statusReport("Details saved.");
 
@@ -133,7 +128,7 @@ public class App {
         // if the correct details have been entered, a request object is used to save them to the file in string format.
         if (isEntryCorrect.equalsIgnoreCase("Y")) {
             Absence lateness = new Lateness(user.getEmployeeName(), user.getEmployeeNumber(), user.getDate(), user.getHours(), user.getReason());
-            writer.save(lateness.fileContents());
+            writer.save(lateness.details());
             updateFile.reformatFile();
             statusReport("Details saved.");
 
@@ -163,7 +158,7 @@ public class App {
         // saves details to the file.
         if (areDatesCorrect.equalsIgnoreCase("Y")) {
             Absence sickLeaveRequest = new SickLeave(user.getEmployeeName(), user.getEmployeeNumber(), user.getStartDate(), user.getEndDate(), user.getReason());
-            writer.save(sickLeaveRequest.fileContents().trim());
+            writer.save(sickLeaveRequest.details().trim());
             updateFile.reformatFile();
             statusReport("Details saved.");
 
@@ -176,7 +171,7 @@ public class App {
 
         userInteractions.userPrompt("\nEnter admin password: \n");
         // gets password input from the user and checks this against required password.
-        checkAndUpdate.login(userInteractions.customScanner);
+        checkAndUpdate.login(userInteractions.scanner);
         statusReport("\nLogin successful.");
 
         display("\nSelect holiday to review:\n");
@@ -190,16 +185,16 @@ public class App {
         // makes sure the correct number is used for indexing into the array of absence requests
         // ie the first request is numbered '1', which corresponds to the first element in the array, indexed at 0
         selectedHolidayOption = selectedHolidayOption - 1;
-        String selectedRequest = selectHoliday(selectedHolidayOption);
+        String selectedRequest = selectRequest(selectedHolidayOption);
         display("\nYou selected:\n");
         display(selectedRequest);
 
         // The option to approve or decline the request
         display("\n1 - Approve\n2 - Decline");
         // checkAndUpdate makes sure the selected option is valid and in range.
-        int selectedApproveOrDecline = Integer.parseInt(checkAndUpdate.approveOrDeclineSelection(userInteractions.customScanner));
+        int selectedApproveOrDecline = Integer.parseInt(checkAndUpdate.approveOrDeclineSelection(userInteractions.scanner));
         // The selected request is updated and displayed
-        updateFile.holidayStatus(selectedHolidayOption, selectedApproveOrDecline);
+        updateFile.updateRequestStatus(selectedHolidayOption, selectedApproveOrDecline);
         display("\nThe following request has been updated:\n");
         // indexes into the array containing each request and retrieves the selected one by the entered number.
         display(reader.getFileContent().get(selectedHolidayOption));
@@ -210,7 +205,7 @@ public class App {
         userInteractions.userPrompt("\nSelect (1) or (2)\n\n 1 - Request absence\n " + "2 - Check request approval status\n " + "3 - Approve an absence request (admin only)\n");
 
         // gets input from the user, uses a regular expression tp check whether it's within the selection range
-        int selectedOption = Integer.parseInt(checkAndUpdate.selection(userInteractions.customScanner));
+        int selectedOption = Integer.parseInt(checkAndUpdate.selection(userInteractions.scanner));
 
         switch (selectedOption) {
             case 1 -> selectRequestToBook();
@@ -223,14 +218,3 @@ public class App {
         userInteractions.closeScanner();
     }
 }
-
-// first issue -> scanner doesn't work the way I thought it did...
-// keeps printing the selected number when the code has finished executing.
-// turns out I didn't notice a line of code printing out the user input at the end... oops!
-// issue with scanner using all whitespace as delimiter. When a name with whitespace was entered (e.g. Alya Rees) it would skip to the next line. This was avoided by explicitly declaring that the delimiter is a newline.
-// extra features to add. Input validation (e.g. regex to check correct date format).
-// issue with getting code tangled up!
-// issue - didn't stop to read and understand code! commit message - Refactored checkAndUpdateDate 1dad081
-// change the date format to dd/mm/yyyy
-// Struggled to solve a problem. Stopped and went through the call stack of the code, beginning with the entry point (Main method, app.run, selected option etc.) Read through and contemplated on each part. It works is the bare minimum. Does it actually make sense? Could it be better?
-// Idea -> Add a validate input base class. Subclasses could be for employee number, dates etc

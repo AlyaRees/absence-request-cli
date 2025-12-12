@@ -4,6 +4,9 @@ import java.util.Scanner;
 
 public class UserDetails {
 
+    UserInteractions userInteractions = new UserInteractions(new Scanner(System.in));
+    CheckAndUpdate checkAndUpdate = new CheckAndUpdate();
+
     private String startDate;
     private String endDate;
     private String date;
@@ -12,8 +15,7 @@ public class UserDetails {
     private String reason;
     private double hours;
 
-    UserInteractions userInteractions = new UserInteractions(new Scanner(System.in).useDelimiter("\n"));
-    CheckAndUpdate checkAndUpdate = new CheckAndUpdate();
+    // All the getter and setter operations for collecting the employee details to be written to the file.
 
     public void setEmployeeName() {
         userInteractions.userPrompt("\nEnter your full name:\n");
@@ -57,22 +59,22 @@ public class UserDetails {
     public void setEmployeeNumber() {
         userInteractions.userPrompt("\nEnter your employee number:\n");
         // check and update employee number.
-        this.employeeNumber = checkAndUpdate.employeeNumber(userInteractions.customScanner);
+        this.employeeNumber = checkAndUpdate.employeeNumber(userInteractions.scanner);
     }
 
     public void setStartDate() {
         userInteractions.userPrompt("\nEnter the date of absence you want to book:\n(Use the format DD/MM/YYYY)\n\nDate from:\n");
-        this.startDate = checkAndUpdate.date(userInteractions.customScanner);
+        this.startDate = checkAndUpdate.date(userInteractions.scanner);
     }
 
     public void setEndDate() {
         userInteractions.userPrompt("\nDate to:\n");
-        this.endDate = checkAndUpdate.date(userInteractions.customScanner);
+        this.endDate = checkAndUpdate.date(userInteractions.scanner);
     }
 
     public void setDate() {
         userInteractions.userPrompt("\nEnter the date you're late on:\n(Use the format DD/M/YYYY)\n");
-        this.date = checkAndUpdate.date(userInteractions.customScanner);
+        this.date = checkAndUpdate.date(userInteractions.scanner);
     }
 
     public void setReason() {
@@ -86,7 +88,7 @@ public class UserDetails {
 
     public void setHours() {
         userInteractions.userPrompt("\nHow many working hours will you be absent?\n(0.5 for 30 minutes, 1 for 1 hour)\n");
-        this.hours = checkAndUpdate.hours(userInteractions.customScanner);
+        this.hours = checkAndUpdate.hours(userInteractions.scanner);
     }
 
     public String getCorrectHours() {

@@ -1,11 +1,7 @@
 package org.holidayReq;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ReadFromFile {
 
@@ -13,10 +9,13 @@ public class ReadFromFile {
 
         ArrayList<String> dates = new ArrayList<>();
 
+        // used scanner to read files before but this lead to issues of previous input being read so incorrect information was being received.
+        // I switched to using a buffer reader to avoid this.
         try (BufferedReader bufferReader = new BufferedReader(
                 new FileReader("HolidayReq.txt")
         )) {
             while (bufferReader.ready()) {
+                // reads each line in the file and adds it to the dates array.
                 dates.add(bufferReader.readLine());
             }
         }

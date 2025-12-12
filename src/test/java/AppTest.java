@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class AppTest {
 
-    // deletes the file before and after each test, should it already exist to maintain good isolation between tests.
+    // deletes the file before each test should it already exist to maintain good isolation between tests.
     @Before
     public void deleteFileBefore() {
 
@@ -29,29 +29,30 @@ public class AppTest {
 
     @Test
 
-    public void testLatenessRequest() {
-
-        Absence latenessRequest = new Lateness("Homer Simpson", "112233", "11/11/1111", 2, "doctors appointment");
-        WriteToFile writer = new WriteToFile();
-        ReadFromFile reader = new ReadFromFile();
-
-        writer.save(latenessRequest.fileContents());
-
-        assertEquals("Request: Lateness - Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 Hours: 2.0 Reason: doctors appointment - PENDING APPROVAL", reader.getFileContent().get(0));
-        assertEquals(1, reader.getFileContent().size());
-    }
-
-    @Test
-
+    // run this test to add a couple entries to the file to avoid having to do it manually.
     public void setUpForManualTesting() {
         WriteToFile writer = new WriteToFile();
         Holiday holidayRequest = new Holiday("Homer Simpson", "112233", "11/11/1111", "22/22/2222");
         Holiday holidayRequest2 = new Holiday("Jerry Smith", "556677", "11/11/1111", "22/22/2222");
 
-        writer.save(holidayRequest.fileContents());
-        writer.save(holidayRequest2.fileContents());
+        writer.save(holidayRequest.details());
+        writer.save(holidayRequest2.details());
 
+    }
 
+    @Test
+
+    public void testLatenessRequest() {
+        Absence latenessRequest = new Lateness("Homer Simpson", "112233", "11/11/1111", 2, "doctors appointment");
+        WriteToFile writer = new WriteToFile();
+        ReadFromFile reader = new ReadFromFile();
+
+        // checks that the request is saved correctly to the file.
+
+        writer.save(latenessRequest.details());
+
+        assertEquals("Request: Lateness - Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 Hours: 2.0 Reason: doctors appointment - PENDING APPROVAL", reader.getFileContent().get(0));
+        assertEquals(1, reader.getFileContent().size());
     }
 
     @Test
@@ -72,10 +73,12 @@ public class AppTest {
         assertEquals(0, reader.getFileContent().size());
 
         // one entry is saved to the file.
-        writer.save(holidayRequest.fileContents());
+        writer.save(holidayRequest.details());
+        // there should only be one entry in the file.
         assertEquals(1, reader.getFileContent().size());
         // a second one.
-        writer.save(holidayRequest2.fileContents());
+        writer.save(holidayRequest2.details());
+        // there should now be 2 entries in the file.
         assertEquals(2, reader.getFileContent().size());
 
         ArrayList<String> result = reader.getFileContent();
@@ -89,11 +92,13 @@ public class AppTest {
         secondEntry = secondEntry - 1;
 
         // approve first entry
-        updateFile.holidayStatus(firstEntry, approve);
+        updateFile.updateRequestStatus(firstEntry, approve);
         // decline second
-        updateFile.holidayStatus(secondEntry, decline);
+        updateFile.updateRequestStatus(secondEntry, decline);
+        // there should still only be 2 entries in the file!
         assertEquals(2, result.size());
 
+        // checks both entries have been updated with the correct information.
         assertEquals("Request: Holiday - Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - APPROVED", reader.getFileContent().get(firstEntry));
         assertEquals("Request: Holiday - Name: Jerry Smith Employee Number: 556677 Date: 11/11/1111 22/22/2222 - DECLINED", reader.getFileContent().get(secondEntry));
 
@@ -108,16 +113,14 @@ public class AppTest {
         Holiday holidayRequest = new Holiday("Homer Simpson", "112233", "11/11/1111", "22/22/2222");
         Holiday holidayRequest2 = new Holiday("Jerry Smith", "556677", "11/11/1111", "22/22/2222");
 
+        // the file should be empty to begin with.
         assertEquals(new ArrayList<String>(), reader.getFileContent());
         assertEquals(0, reader.getFileContent().size());
 
         // writes to a new file
-        writer.save(holidayRequest.fileContents());
+        writer.save(holidayRequest.details());
         assertEquals(1, reader.getFileContent().size());
-        writer.save(holidayRequest2.fileContents());
-        //assertEquals(2, reader.getFileContent().size());
-
-        // gets the information from the file and puts it in an ArrayList
+        writer.save(holidayRequest2.details());
 
         // checks the information added earlier is in the file
         assertEquals("Request: Holiday - Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - PENDING APPROVAL", reader.getFileContent().get(0));
@@ -143,7 +146,7 @@ public class AppTest {
         assertEquals("Name: Homer Simpson Employee Number: 112233 Date: 11/11/1111 22/22/2222 - DECLINED", testList.get(1));
         assertEquals("Name: Jackie Chan Employee Number: 445566 Date: 22/12/2026 22/22/2222 - APPROVED", testList.get(2));
 
-        // Act
+        // Act - add number IDs to each entry. This is to be displayed to the user to allow them to select requests to edit.
         app.addNumberIDs(testList);
 
         // Assert

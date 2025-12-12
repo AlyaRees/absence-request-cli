@@ -4,8 +4,9 @@ import java.util.Scanner;
 
 public class CheckAndUpdate {
 
-    UserInteractions userInteractions = new UserInteractions(new Scanner(System.in).useDelimiter("\n"));
+    UserInteractions userInteractions = new UserInteractions(new Scanner(System.in));
 
+    // gets input from the user, compares it to the given pattern and logs the given message when there is a mismatch.
     public String askForInputAgain(Scanner scanner, String pattern, String message) {
         String input = scanner.next();
         while (!input.matches(pattern)) {
@@ -15,6 +16,7 @@ public class CheckAndUpdate {
         return input;
     }
 
+    // all features that need checking and updating have a method.
     public String employeeNumber(Scanner scanner) {
         return askForInputAgain(scanner, "^[0-9]{6}$", "\nInvalid entry. Employee numbers have six digits. Try again.\n");
     }
@@ -35,38 +37,7 @@ public class CheckAndUpdate {
         return askForInputAgain(scanner, "[1-2]{1}", "\nPlease select a valid option.\n");
     }
 
-    /*
-
-    Commonality capture ->
-
-    - all could take one argument - Done!
-    - all could contain error messages
-    - all update the variable
-    - all have a condition and a loop
-
-- the thing the variable must conform to (regex or type)
-- if th inputted thing is valid then return it
-
-    public String askForInputAgain(Scanner scanner, String pattern, String message) {
-        String input = scanner.next();
-        while (!input.matches(pattern)) {
-            userInteractions.userPrompt(message);
-            input = scanner.next();
-        }
-        return input;
-    }
-     */
-
-
-    public int selectionInt(Scanner scanner) {
-        int userInput = scanner.nextInt();
-        while (!(userInput == 1 || userInput == 2)) {
-            userInteractions.userPrompt("\nPlease select a valid option.");
-            userInput = scanner.nextInt();
-        }
-        return userInput;
-    }
-
+    // makes sure that the correct range and type of input is received.
     public double hours(Scanner scanner) {
         double userInput = scanner.nextDouble();
         while (!(userInput > 0.0) && !(userInput <= 7.5)) {
@@ -76,13 +47,3 @@ public class CheckAndUpdate {
         return userInput;
     }
 }
-/*
-
-    User error messages ->
-
-    Employee number
-    "\nInvalid entry. Employee numbers have six digits. Try again.\n"
-
-    Date
-    "\nInvalid format. Try again."
- */

@@ -13,10 +13,12 @@ public class Lateness extends Absence {
         this.date = date;
     }
 
+    // specifies type of request to be written to the file.
     public String requestType() {
         return "Lateness - ";
     }
 
+    // adds additional information that might not be required of other types of absence requests
     public String getAdditionalInfo() {
         return this.date + " Hours: " + this.hoursLate + " Reason: " + this.reason;
     }

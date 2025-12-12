@@ -4,14 +4,16 @@ import java.util.Scanner;
 
 public class UserInteractions {
 
-    public Scanner customScanner;
+    public Scanner scanner;
 
-    public UserInteractions(Scanner customScanner) {
-        this.customScanner = customScanner;
+    // all user interactions, including interactions with the scanner.
+
+    public UserInteractions(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     void closeScanner() {
-        customScanner.close();
+        scanner.close();
     }
 
     public void userPrompt(String message) {
@@ -19,14 +21,10 @@ public class UserInteractions {
     }
 
     int getUserInputInt() {
-        return customScanner.nextInt();
+        return scanner.nextInt();
     }
 
     public String getUserInputStr() {
-        return customScanner.next();
+        return scanner.next();
     }
 }
-
-// Use an interface when two different classes share some commonality but are otherwise different.
-
-// Have I used enough 'abstract' and inheritance principles in my code? - No.
