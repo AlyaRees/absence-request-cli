@@ -1,8 +1,8 @@
 ---
 
-# 📝 Absence Request CLI (Java)
+# 📝 Absence Request CLI
 
-A simple Java CLI for logging and managing absence requests, including holiday, sickness, and lateness. Users can submit requests, view all records, and admins can approve or decline entries.
+A simple CLI built using Java, Maven, Git and Mockito and JUnit for testing. Allows users to log and manage absence requests, including holiday, sickness, and lateness. Users can submit requests, view all records, and admins can approve or decline entries.
 
 ## 📦 Installation
 
