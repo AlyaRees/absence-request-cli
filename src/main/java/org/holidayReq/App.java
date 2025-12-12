@@ -20,22 +20,19 @@ public class App {
 
     private String selectHoliday(int index) {
         String selectedRequest;
-        display("1st call index" + index);
         try {
             selectedRequest = reader.getFileContent().get(index);
-            display("selectedRequest " + selectedRequest);
-            display("2nd call index" + index);
         } catch (Exception e) {
             statusReport("Please select from the provided options.");
             index = getCorrectIndex(userInteractions.getUserInputInt());
             selectedRequest = selectHoliday(index);
-            display("3rd call index" + index);
         }
         return selectedRequest;
     }
 
     public int getCorrectIndex(int userInputInt) {
-        return userInputInt - 1;
+        userInputInt = userInputInt -1;
+        return userInputInt;
     }
 
     public ArrayList<String> addNumberIDs(ArrayList<String> list) {
@@ -176,7 +173,8 @@ public class App {
         // User selects a holiday request, and it is then displayed.
         // makes sure the correct number is used for indexing into the array of absence requests
         // ie the first request is numbered '1', which corresponds to the first element in the array, indexed at 0
-        int selectedHolidayOption = getCorrectIndex(userInteractions.getUserInputInt());
+        int selectedHolidayOption = userInteractions.getUserInputInt();
+        selectedHolidayOption = selectedHolidayOption - 1;
         display("selectedHolidayOption" + selectedHolidayOption);
         String selectedRequest = selectHoliday(selectedHolidayOption);
         display("selectedHolidayOption" + selectedHolidayOption);
@@ -186,10 +184,14 @@ public class App {
         // The option to approve or decline the request
         display("\n1 - Approve\n2 - Decline");
         int selectedApproveOrDecline = checkAndUpdate.selectionInt(userInteractions.customScanner);
+        display("selectedApproveOrDecline " + selectedApproveOrDecline);
         // The selected request is updated and displayed
         updateFile.holidayStatus(selectedHolidayOption, selectedApproveOrDecline);
         display("\nThe following request has been updated:\n");
+        display("selectedHolidayOption" + selectedHolidayOption);
         display(reader.getFileContent().get(selectedHolidayOption));
+        display("selectedHolidayOption" + selectedHolidayOption);
+
     }
 
     public void run() {
