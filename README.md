@@ -1,5 +1,3 @@
-Here is a polished **≤100-word** version while keeping it attractive and clear:
-
 ---
 
 # 📝 Absence Request CLI (Java)
